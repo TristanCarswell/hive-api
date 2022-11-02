@@ -2,12 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+	<modules>
+		<module>auth-component</module>
+		<module>boot</module>
+	</modules>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>carswell.tristan.hive</groupId>
 	<artifactId>hive-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -15,17 +22,47 @@
 	<description>Hive API</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<spring.boot.version>2.7.5</spring.boot.version>
+		<swagger.version>2.9.2</swagger.version>
+		<jacoco.version>0.8.5</jacoco.version>
+		<junit.version>4.13</junit.version>
+		<dozer.version>5.5.1</dozer.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- Test Dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
@@ -37,5 +74,29 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<activatedProperties>test</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<activatedProperties>prod</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
 
 </project>

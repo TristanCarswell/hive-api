@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>hive-api</artifactId>
+        <groupId>carswell.tristan.hive</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>boot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Boot Component</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>carswell.tristan.hive</groupId>
+            <artifactId>auth-component</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+    </properties>
+
+</project>
