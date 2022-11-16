@@ -2,7 +2,6 @@ package carswell.tristan.hive.hiveapi.auth.models.users;
 
 import carswell.tristan.hive.hiveapi.auth.models.enums.Gender;
 import carswell.tristan.hive.hiveapi.auth.models.enums.Role;
-import carswell.tristan.hive.hiveapi.auth.models.intf.IMergeable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,20 +17,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
-@Table(name = "tbl_users")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User implements UserDetails, IMergeable<User> {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    //            (unique = true)
     @Column
     private String firstName;
 
@@ -40,16 +39,6 @@ public class User implements UserDetails, IMergeable<User> {
 
     @Column
     private String email;
-
-
-//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-//    @JoinTable(name = "tbl_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    @Column(name = "role", nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private List<Role> roles;
-//
-//    @OneToOne
-//    private Client client;
 
     @Column
     private String password;
@@ -65,75 +54,41 @@ public class User implements UserDetails, IMergeable<User> {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return roles()
-//                .map(Enum::name)
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toSet());
-//    }
+    @Column
+    private String username;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public final Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return false;
+    public final boolean isAccountNonExpired() {
+        return true;
     }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return false;
+    public final boolean isAccountNonLocked() {
+        return true;
     }
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
+    public final boolean isCredentialsNonExpired() {
+        return true;
     }
 
     @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    @Override
-    public User merge(User merger) {
-        if (merger == null) {
-            return this;
-        }
-
-        Long idM = merger.getId();
-        if (null != idM) {
-            setId(idM);
-        }
-
-        String firstNameM = merger.getFirstName();
-        if (null != firstNameM) {
-            setFirstName(firstNameM);
-        }
-
-        String passwordM = merger.getPassword();
-        if (null != passwordM) {
-            setPassword(passwordM);
-        }
-
-        Role rolesM = merger.getRole();
-        if (null != rolesM) {
-            setRole(rolesM);
-        }
-
-        Gender genderM = merger.getGender();
-        if (null != genderM) {
-            setGender(genderM);
-        }
-
-        return this;
+    public final boolean isEnabled() {
+        return true;
     }
 }

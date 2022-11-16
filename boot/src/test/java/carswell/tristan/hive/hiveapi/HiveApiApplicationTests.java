@@ -9,5 +9,4 @@ class HiveApiApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
